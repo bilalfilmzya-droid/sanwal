@@ -9,22 +9,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Unzip Project
-        run: unzip SanwalApp.zip
-        
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          
+
+      - name: Unzip Project
+        run: unzip SanwalApp.zip
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Make gradlew executable
-        run: cd SanwalApp && chmod +x gradlew
-        
+        run: chmod +x SanwalApp/gradlew
+
       - name: Build APK
-        run: cd SanwalApp && ./gradlew assembleDebug
-        
+        run: cd SanwalApp && ./gradlew assembleDebug --no-daemon
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
